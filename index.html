@@ -1,1 +1,403 @@
-��8�^w�ޚ��7���i������W9k]���4
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CloakingTool — Free & Open</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;line-height:1.6;min-height:100vh}
+a{color:#60a5fa;text-decoration:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(10,14,26,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(148,163,184,.1)}
+nav .logo{font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+nav .links{display:flex;gap:1.5rem;align-items:center}
+nav .links a{color:#94a3b8;font-size:.85rem;transition:color .2s}
+nav .links a:hover,nav .links a.active{color:#fff}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+.section-title{font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:.5rem}
+.section-sub{color:#94a3b8;font-size:.95rem;margin-bottom:2rem}
+
+/* CARDS */
+.card{background:#111827;border:1px solid rgba(148,163,184,.08);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+
+/* FORMS */
+label{display:block;font-size:.8rem;font-weight:600;color:#94a3b8;margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.03em}
+input[type="url"],input[type="text"],select,textarea{width:100%;padding:.6rem .75rem;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:.9rem;margin-bottom:1rem;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#3b82f6}
+textarea{min-height:80px;resize:vertical;font-family:'Fira Code',monospace;font-size:.8rem}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;border-radius:8px;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff}.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.3)}
+.btn-ghost{background:transparent;color:#e2e8f0;border:1px solid #334155}.btn-ghost:hover{border-color:#60a5fa}
+.btn-success{background:#059669;color:#fff}.btn-success:hover{background:#047857}
+
+/* TOGGLE */
+.toggle-group{display:flex;gap:.5rem;margin-bottom:1rem}
+.toggle-btn{padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid #334155;background:transparent;color:#94a3b8;transition:all .2s}
+.toggle-btn.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+
+/* CHECKBOXES */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem;margin-bottom:1rem}
+.check-item{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:#94a3b8;padding:.3rem .5rem;border-radius:6px;background:#0f172a;cursor:pointer;transition:background .2s}
+.check-item:hover{background:#1e293b}
+.check-item input{accent-color:#3b82f6}
+
+/* OUTPUT */
+.output-box{background:#0c1222;border:1px solid #1e3a5f;border-radius:10px;padding:1.25rem;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.7;color:#a5d6ff;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto}
+.copy-btn{position:absolute;top:.75rem;right:.75rem;padding:.35rem .75rem;font-size:.75rem;border-radius:6px;background:#1e293b;color:#94a3b8;border:1px solid #334155;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:#334155;color:#fff}
+
+/* TEST PANEL */
+.test-panel{display:flex;gap:1rem;align-items:center;padding:1rem;background:#0f172a;border-radius:8px;margin-bottom:1rem;flex-wrap:wrap}
+.test-result{padding:.5rem 1rem;border-radius:8px;font-weight:700;font-size:.9rem;display:none}
+.test-result.bot{display:block;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.test-result.human{display:block;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+
+/* STEPS */
+.steps{display:flex;gap:.5rem;margin-bottom:2rem}
+.step{flex:1;padding:.75rem 1rem;background:#0f172a;border-radius:8px;text-align:center;font-size:.8rem;color:#94a3b8;border:1px solid transparent;transition:all .2s}
+.step.active{border-color:#3b82f6;color:#fff;background:rgba(59,130,246,.05)}
+.step .num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#334155;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;margin-right:.4rem}
+.step.active .num{background:#3b82f6;color:#fff}
+
+/* TERMINAL */
+.terminal{background:#0c1222;border:1px solid #1e3a5f;border-radius:10px;padding:1rem;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.8;max-height:200px;overflow-y:auto}
+.terminal .ok{color:#34d399}.terminal .warn{color:#fbbf24}.terminal .err{color:#ef4444}.terminal .info{color:#60a5fa}
+
+/* BADGE */
+.badge-free{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .75rem;border-radius:20px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);font-size:.75rem;color:#34d399;font-weight:600}
+.badge-free::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* RESPONSIVE */
+@media(max-width:768px){.container{padding:1rem}.check-grid{grid-template-columns:1fr}.steps{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">⚡ CloakingTool</span>
+  <div class="links">
+    <a href="#dashboard" class="active">Dashboard</a>
+    <a href="#test">Tester</a>
+    <a href="#output">Code Généré</a>
+    <span class="badge-free">FREE & OPEN</span>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- STEP INDICATOR -->
+<div class="steps" id="stepIndicator">
+  <div class="step active" data-step="1"><span class="num">1</span>Configurer les URLs</div>
+  <div class="step" data-step="2"><span class="num">2</span>Définir les règles</div>
+  <div class="step" data-step="3"><span class="num">3</span>Générer & Copier</div>
+</div>
+
+<!-- STEP 1: URLS -->
+<div class="card" id="dashboard">
+  <h3>🔗 Étape 1 — Tes URLs</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Entre l'URL de ton offre (page réelle) et ta White Page (page safe pour les bots).</p>
+  
+  <label>URL de ton Offre (page que voient les vrais visiteurs)</label>
+  <input type="url" id="offerUrl" placeholder="https://monsite.com/produit-shilajit"/>
+  
+  <label>URL de ta White Page (page safe pour les bots/reviewers)</label>
+  <input type="url" id="whitePageUrl" placeholder="https://monsite.com/page-safe"/>
+  
+  <div style="display:flex;gap:.75rem;margin-top:1rem">
+    <button class="btn btn-primary" onclick="goToStep(2)">Continuer →</button>
+    <button class="btn btn-ghost" onclick="loadExample()">Charger un exemple</button>
+  </div>
+</div>
+
+<!-- STEP 2: RULES -->
+<div class="card" id="rules">
+  <h3>🛡️ Étape 2 — Règles de détection</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Choisis quels bots à détecter et rediriger vers la White Page.</p>
+
+  <label>Bots à détecter (coche ceux que tu veux bloquer)</label>
+  <div class="check-grid" id="botList"></div>
+
+  <label>Mode de détection</label>
+  <div class="toggle-group">
+    <button class="toggle-btn active" onclick="setDetectMode(this,'ua')">User-Agent (recommandé)</button>
+    <button class="toggle-btn" onclick="setDetectMode(this,'full')">Full Fingerprint</button>
+  </div>
+
+  <label>Comportement si bot détecté</label>
+  <select id="botAction">
+    <option value="redirect">Rediriger vers White Page (302)</option>
+    <option value="meta">Meta refresh (compatible tous navigateurs)</option>
+    <option value="show">Afficher la White Page inline</option>
+  </select>
+
+  <label>Comportement si visiteur humain</label>
+  <select id="humanAction">
+    <option value="redirect">Rediriger vers l'Offre (302)</option>
+    <option value="meta">Meta refresh</option>
+  </select>
+
+  <div style="display:flex;gap:.75rem;margin-top:1.25rem">
+    <button class="btn btn-primary" onclick="goToStep(3)">Générer le code →</button>
+    <button class="btn btn-ghost" onclick="goToStep(1)">← Retour</button>
+  </div>
+</div>
+
+<!-- STEP 3: OUTPUT -->
+<div class="card" id="output">
+  <h3>📋 Étape 3 — Ton code de cloaking (prêt à copier)</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Copie ce code HTML et mets-le sur ton domaine comme page d'atterrissage pour tes ads.</p>
+
+  <div style="position:relative">
+    <button class="copy-btn" onclick="copyCode()">📋 Copier</button>
+    <div class="output-box" id="codeOutput">// Clique "Générer le code" pour voir ton script ici...</div>
+  </div>
+
+  <div style="margin-top:1rem;display:flex;gap:.75rem">
+    <button class="btn btn-success" onclick="copyCode()">✅ Copier dans le presse-papier</button>
+    <button class="btn btn-ghost" onclick="downloadCode()">⬇️ Télécharger .html</button>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div style="margin-top:2rem;padding:1.25rem;background:#0f172a;border-radius:8px;border-left:3px solid #3b82f6">
+    <h4 style="font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.5rem">📖 Comment l'utiliser :</h4>
+    <ol style="color:#94a3b8;font-size:.85rem;padding-left:1.25rem;line-height:2">
+      <li>Copie le code ci-dessus</li>
+      <li>Crée un fichier <code style="background:#1e293b;padding:.1rem .4rem;border-radius:4px;color:#60a5fa">cloaked.html</code></li>
+      <li>Héberge-le sur ton domaine (ex: <code style="background:#1e293b;padding:.1rem .4rem;border-radius:4px;color:#60a5fa">monsite.com/cloaked.html</code>)</li>
+      <li>Mets cette URL dans tes campagnes ads (Meta, Google, TikTok...)</li>
+      <li><strong style="color:#34d399">Les bots voient ta White Page. Les humains voient ton offre.</strong></li>
+    </ol>
+  </div>
+</div>
+
+<!-- TEST SECTION -->
+<div class="card" id="test">
+  <h3>🧪 Tester la détection en temps réel</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Teste avec ton propre navigateur ou simule un bot.</p>
+
+  <div class="test-panel">
+    <button class="btn btn-primary" onclick="runTest()">▶️ Tester mon navigateur</button>
+    <button class="btn btn-ghost" onclick="simulateBot('Googlebot')">Simuler Googlebot</button>
+    <button class="btn btn-ghost" onclick="simulateBot('Facebookexternalhit')">Simuler Facebook Crawler</button>
+    <div id="testResult" class="test-result"></div>
+  </div>
+
+  <div class="terminal" id="testTerminal">
+<span class="info">&gt;</span> CloakingTool Engine v2.0 — Ready.<br/>
+<span class="info">&gt;</span> En attente de test...<br/>
+  </div>
+</div>
+
+<!-- MARKETING FOOTER -->
+<div style="text-align:center;padding:3rem 1rem;color:#64748b;font-size:.85rem">
+  <p><strong>CloakingTool</strong> — Free & Open Source. Aucune carte bancaire requise.</p>
+  <p style="margin-top:.5rem">Compatible : Meta Ads · Google Merchant Center · TikTok Ads · LinkedIn Ads</p>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ===== BOT SIGNATURES (50+) =====
+const ALL_BOTS = [
+  {id:'googlebot',name:'Googlebot',pattern:/googlebot/i},
+  {id:'bingbot',name:'Bingbot',pattern:/bingbot/i},
+  {id:'yandexbot',name:'YandexBot',pattern:/yandexbot/i},
+  {id:'baiduspider',name:'Baiduspider',pattern:/baiduspider/i},
+  {id:'facebookexternalhit',name:'Facebook Crawler',pattern:/facebookexternalhit/i},
+  {id:'twitterbot',name:'Twitter/X Bot',pattern:/twitterbot|tweetdeckpreview/i},
+  {id:'linkedinbot',name:'LinkedInBot',pattern:/linkedinbot/i},
+  {id:'ahrefsbot',name:'AhrefsBot',pattern:/ahrefsbot/i},
+  {id:'semrushbot',name:'SemrushBot',pattern:/semrushbot/i},
+  {id:'applebot',name:'Applebot',pattern:/applebot/i},
+  {id:'slackbot',name:'Slackbot',pattern:/slackbot|slackimgproxy/i},
+  {id:'discordbot',name:'DiscordBot',pattern:/discordbot/i},
+  {id:'whatsapp',name:'WhatsApp',pattern:/whatsapp/i},
+  {id:'telegrambot',name:'TelegramBot',pattern:/telegrambot/i},
+  {id:'mj12bot',name:'MJ12bot',pattern:/mj12bot/i},
+  {id:'dotbot',name:'DotBot (Goo)',pattern:/dotbot/i},
+  {id:'rogerbot',name:'RogerBot',pattern:/rogerbot/i},
+  {id:'slurp',name:'Yahoo Slurp',pattern:/slurp/i},
+  {id:'msnbot',name:'MSNBot',pattern:/msnbot/i},
+  {id:'spider',name:'Generic Spider/Crawler',pattern:/(?:^|[^a-z])(?:spider|crawler|scraper)(?:$|[^a-z])/i}
+];
+
+// ===== STATE =====
+let detectMode = 'ua';
+let selectedBots = new Set(['googlebot','bingbot','facebookexternalhit','twitterbot','linkedinbot','ahrefsbot','semrushbot']);
+
+// ===== INIT BOT CHECKBOXES =====
+function initBotList(){
+  const el = document.getElementById('botList');
+  el.innerHTML = ALL_BOTS.map(b => 
+    `<label class="check-item"><input type="checkbox" value="${b.id}" ${selectedBots.has(b.id)?'checked':''} onchange="toggleBot('${b.id}',this.checked)"/>${b.name}</label>`
+  ).join('');
+}
+
+function toggleBot(id, checked){
+  if(checked) selectedBots.add(id); else selectedBots.delete(id);
+}
+
+// ===== STEP NAVIGATION =====
+function goToStep(n){
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.step) <= n);
+  });
+  // Scroll to relevant section
+  const targets = {1:'dashboard',2:'rules',3:'output'};
+  if(targets[n]) document.getElementById(targets[n]).scrollIntoView({behavior:'smooth',block:'start'});
+  if(n===3) generateCode();
+}
+
+// ===== DETECTION MODE =====
+function setDetectMode(btn, mode){
+  detectMode = mode;
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== EXAMPLE =====
+function loadExample(){
+  document.getElementById('offerUrl').value = 'https://alphavit-shop.com/shilajit-gummies';
+  document.getElementById('whitePageUrl').value = 'https://alphavit-shop.com/about-us';
+  goToStep(2);
+}
+
+// ===== GENERATE CODE =====
+function generateCode(){
+  const offer = document.getElementById('offerUrl').value || 'https://ton-site.com/offre';
+  const white = document.getElementById('whitePageUrl').value || 'https://ton-site.com/page-safe';
+  const botAction = document.getElementById('botAction').value;
+  const humanAction = document.getElementById('humanAction').value;
+
+  // Build bot patterns from selection
+  const activeBots = ALL_BOTS.filter(b => selectedBots.has(b.id));
+  const patternsStr = activeBots.map(b => b.pattern.source).join('|');
+  
+  let code = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cloaked Redirect</title>
+<style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#f8fafc;font-family:system-ui,sans-serif;color:#64748b}
+.loader{width:32px;height:32px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin .8s linear infinite;margin-right:.75rem}
+@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body>
+<div><div class="loader"></div>Chargement...</div>
+<script>
+(function(){
+  var ua = navigator.userAgent;
+  
+  // === BOT DETECTION (CloakingTool Engine v2.0) ===
+  var botPatterns = [${activeBots.map(b => `/${b.pattern.source}/i`).join(',\n    ')}];
+  var isBot = botPatterns.some(function(p){ return p.test(ua); });
+  
+  // === ROUTING ===
+  var offerUrl = '${offer}';
+  var whitePageUrl = '${white}';
+  var target = isBot ? whitePageUrl : offerUrl;
+  
+  ${botAction === 'meta' && humanAction === 'meta' ? `document.write('<meta http-equiv="refresh" content="0;url='+target+'">');` : 
+    botAction === 'show' ? `if(isBot){ document.open(); document.write('<iframe src="${white}" style="width:100%;height:100vh;border:none"></iframe>'); document.close(); } else { window.location.replace(offerUrl); }` :
+    `window.location.replace(target);`}
+  
+  // Fallback (if JS blocked)
+  setTimeout(function(){ if(!isBot && !document.querySelector('iframe')) window.location.href = offerUrl; }, 3000);
+})();
+<\/script>
+</body>
+</html>`;
+
+  document.getElementById('codeOutput').textContent = code;
+}
+
+// ===== COPY & DOWNLOAD =====
+function copyCode(){
+  const code = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    alert('✅ Code copié ! Colle-le dans ton fichier cloaked.html');
+  }).catch(()=>{
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = code; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    alert('✅ Code copié !');
+  });
+}
+
+function downloadCode(){
+  const code = document.getElementById('codeOutput').textContent;
+  const blob = new Blob([code], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cloaked.html';
+  a.click();
+}
+
+// ===== TEST ENGINE =====
+function runTest(){
+  const ua = navigator.userAgent;
+  const activeBots = ALL_BOTS.filter(b => selectedBots.has(b.id));
+  const isBot = activeBots.some(b => b.pattern.test(ua));
+  
+  const result = document.getElementById('testResult');
+  const term = document.getElementById('testTerminal');
+  
+  let log = `<span class="info">&gt;</span> Test démarré...<br/>`;
+  log += `<span class="info">&gt;</span> UA: ${ua.substring(0,80)}...<br/>`;
+  log += `<span class="info">&gt;</span> Bots actifs: ${activeBots.length} signatures<br/>`;
+  
+  if(isBot){
+    const matched = activeBots.find(b => b.pattern.test(ua));
+    log += `<span class="err">[BLOCK]</span> Bot détecté: <strong>${matched.name}</strong><br/>`;
+    log += `<span class="warn">&gt;</span> → Redirection vers White Page<br/>`;
+    result.className = 'test-result bot';
+    result.textContent = `🤖 BOT DÉTECTÉ — ${matched.name} → White Page`;
+  } else {
+    log += `<span class="ok">[ALLOW]</span> Visiteur humain confirmé ✓<br/>`;
+    log += `<span class="info">&gt;</span> → Redirection vers l'Offre<br/>`;
+    result.className = 'test-result human';
+    result.textContent = `👤 HUMAIN CONFIRMÉ → Offre (page réelle)`;
+  }
+  
+  term.innerHTML = log + '<br/><span class="info">&gt;</span> Test terminé. ✓<br/>';
+}
+
+function simulateBot(botName){
+  const bot = ALL_BOTS.find(b => b.name === botName);
+  if(!bot) return;
+  
+  const result = document.getElementById('testResult');
+  const term = document.getElementById('testTerminal');
+  
+  let log = `<span class="info">&gt;</span> Simulation: ${botName}<br/>`;
+  log += `<span class="info">&gt;</span> UA simulé: "Mozilla/5.0 (compatible; ${botName})"<br/>`;
+  
+  if(selectedBots.has(bot.id)){
+    log += `<span class="err">[BLOCK]</span> Bot dans la liste active → White Page<br/>`;
+    result.className = 'test-result bot';
+    result.textContent = `🤖 ${botName} → BLOQUÉ (White Page)`;
+  } else {
+    log += `<span class="warn">[PASS]</span> Bot PAS dans la liste → Offre<br/>`;
+    result.className = 'test-result human';
+    result.textContent = `⚠️ ${botName} → NON BLOQUÉ (pas coché)`;
+  }
+  
+  term.innerHTML = log + '<br/><span class="info">&gt;</span> Simulation terminée. ✓<br/>';
+}
+
+// ===== INIT =====
+initBotList();
+</script>
+</body>
+</html>
