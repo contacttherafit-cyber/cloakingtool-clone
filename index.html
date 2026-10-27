@@ -1,402 +1,403 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CloakingTool | Free & Open — Advanced Traffic Filtering</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth;--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;
-            --bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-primary:#0d6efd;--bs-secondary:#6c757d;
-            --bs-success:#198754;--bs-info:#0dcaf0;--bs-light:#f8f9fa;--bs-dark:#212529;
-            --bs-gradient:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,0))}
-        body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:#020617;color:#e2e8f0;line-height:1.6;overflow-x:hidden}a{text-decoration:none;color:inherit}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CloakingTool — Free & Open</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;line-height:1.6;min-height:100vh}
+a{color:#60a5fa;text-decoration:none}
 
-        /* HEADER */
-        .ct-header{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(2,6,23,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(148,163,184,.1)}
-        .ct-logo{display:flex;align-items:center;gap:.75rem}img.ct-logo-img{height:32px}
-        .ct-logo-text{font-weight:700;font-size:1.25rem;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(10,14,26,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(148,163,184,.1)}
+nav .logo{font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+nav .links{display:flex;gap:1.5rem;align-items:center}
+nav .links a{color:#94a3b8;font-size:.85rem;transition:color .2s}
+nav .links a:hover,nav .links a.active{color:#fff}
 
-        /* NAV */
-        .ct-nav-links{display:flex;gap:2rem;align-items:center}.ct-nav-links a{text-decoration:none;color:#94a3b8;font-size:.9rem;transition:color .2s}.ct-nav-links a:hover{color:#fff}
-        .ct-btn{display:inline-block;padding:.5rem 1.25rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none;cursor:pointer;transition:all .2s;border:none}
-        .ct-btn-primary{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff}.ct-btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(59,130,246,.4)}
-        .ct-btn-ghost{background:transparent;color:#e2e8f0;border:1px solid #334155}.ct-btn-ghost:hover{border-color:#60a5fa;background:rgba(96,165,250,.1)}
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+.section-title{font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:.5rem}
+.section-sub{color:#94a3b8;font-size:.95rem;margin-bottom:2rem}
 
-        /* Bootstrap compat */
-        .d-none{display:none !important}.d-flex{display:flex !important}
-        .flex-column{flex-direction:column !important}.position-absolute{position:absolute !important}
-        .w-100{width:100% !important}.ms-1{margin-left:.25rem !important}.ms-2{margin-left:.5rem !important}
+/* CARDS */
+.card{background:#111827;border:1px solid rgba(148,163,184,.08);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
 
-        /* HERO */
-        .ct-hero{text-align:center;padding:8rem 2rem 4rem;position:relative}
-        .ct-hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%);z-index:-1}
-        .ct-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem 1rem;border-radius:20px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);font-size:.8rem;color:#60a5fa;margin-bottom:1.5rem}
-        .ct-badge-dot{width:6px;height:6px;border-radius:50%;background:#3b82f6;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* FORMS */
+label{display:block;font-size:.8rem;font-weight:600;color:#94a3b8;margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.03em}
+input[type="url"],input[type="text"],select,textarea{width:100%;padding:.6rem .75rem;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:.9rem;margin-bottom:1rem;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#3b82f6}
+textarea{min-height:80px;resize:vertical;font-family:'Fira Code',monospace;font-size:.8rem}
 
-        /* TYPO */
-        .fw-bold{font-weight:700 !important}.text-white,.text-primary,.text-muted,.text-warning,.text-danger,.text-success{color:#fff}
-        .text-primary{color:#60a5fa !important}.text-muted{color:#94a3b8 !important}.text-warning{color:#fbbf24 !important}
-        .text-danger{color:#ef4444 !important}.text-success{color:#34d399 !important}.mt-4{margin-top:1rem !important}
-        .mb-5{margin-bottom:3rem !important}.mx-auto{margin-left:auto;margin-right:auto}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;border-radius:8px;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff}.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.3)}
+.btn-ghost{background:transparent;color:#e2e8f0;border:1px solid #334155}.btn-ghost:hover{border-color:#60a5fa}
+.btn-success{background:#059669;color:#fff}.btn-success:hover{background:#047857}
 
-        /* HERO TITLE */
-        .fs-1{font-size:3rem;font-weight:800;margin-bottom:1rem;line-height:1.2}
-        .fs-1 span{background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        p.text-muted.mx-auto[style]{max-width:600px;margin-bottom:2rem}
+/* TOGGLE */
+.toggle-group{display:flex;gap:.5rem;margin-bottom:1rem}
+.toggle-btn{padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid #334155;background:transparent;color:#94a3b8;transition:all .2s}
+.toggle-btn.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
 
-        /* TERMINAL */
-        .ct-terminal-ui{background:rgba(15,23,42,.9);border:1px solid rgba(148,163,184,.3);border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,.6);font-family:'Fira Code',monospace;font-size:.85rem;padding:1.5rem;display:inline-block;text-align:left;margin:2rem auto}
-        .blink{animation:blink 1s step-start infinite}@keyframes blink{50%{opacity:0}}
+/* CHECKBOXES */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem;margin-bottom:1rem}
+.check-item{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:#94a3b8;padding:.3rem .5rem;border-radius:6px;background:#0f172a;cursor:pointer;transition:background .2s}
+.check-item:hover{background:#1e293b}
+.check-item input{accent-color:#3b82f6}
 
-        /* SCROLLER / COMPAT */
-        .ct-scroller-wrapper,.ct-scroller-track,.ct-scroller-group,.ct-scroller-item{text-align:center;white-space:nowrap}
-        .ct-scroller-wrapper{display:flex;align-items:center;padding:3rem 2rem;background:#0f172a;border-top:1px solid rgba(148,163,184,.05);border-bottom:1px solid rgba(148,163,184,.05)}
-        .ct-scroller-track{overflow-x:auto;display:flex;gap:3rem}
-        .ct-scroller-item{display:inline-flex;flex-direction:column;align-items:center;gap:.5rem;color:#94a3b8;font-size:.85rem;padding:1rem;border-radius:8px;background:rgba(255,255,255,.03)}
+/* OUTPUT */
+.output-box{background:#0c1222;border:1px solid #1e3a5f;border-radius:10px;padding:1.25rem;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.7;color:#a5d6ff;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto}
+.copy-btn{position:absolute;top:.75rem;right:.75rem;padding:.35rem .75rem;font-size:.75rem;border-radius:6px;background:#1e293b;color:#94a3b8;border:1px solid #334155;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:#334155;color:#fff}
 
-        /* SECTIONS */
-        .ct-section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
-        .ct-title{font-size:2.25rem;font-weight:700;color:#fff;text-align:center;margin-bottom:1.5rem}
+/* TEST PANEL */
+.test-panel{display:flex;gap:1rem;align-items:center;padding:1rem;background:#0f172a;border-radius:8px;margin-bottom:1rem;flex-wrap:wrap}
+.test-result{padding:.5rem 1rem;border-radius:8px;font-weight:700;font-size:.9rem;display:none}
+.test-result.bot{display:block;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.test-result.human{display:block;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.3)}
 
-        /* CARDS */
-        .ct-card{background:#0f172a;border-radius:16px;padding:2rem;display:flex;flex-direction:column;text-align:center;border:1px solid rgba(148,163,184,.05)}
-        .d-flex{display:flex !important}.align-items-center{align-items:center !important}
-        .justify-content-between{justify-content:space-between !important}.gap-2{gap:.75rem !important}
-        .h-100{height:100% !important}.flex-grow-1{flex-grow:1 !important}.mb-3,.mb-4{margin-bottom:inherit;margin-bottom:.75rem 1.5rem 3rem;--bs-gutter-x:inherit}
+/* STEPS */
+.steps{display:flex;gap:.5rem;margin-bottom:2rem}
+.step{flex:1;padding:.75rem 1rem;background:#0f172a;border-radius:8px;text-align:center;font-size:.8rem;color:#94a3b8;border:1px solid transparent;transition:all .2s}
+.step.active{border-color:#3b82f6;color:#fff;background:rgba(59,130,246,.05)}
+.step .num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#334155;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;margin-right:.4rem}
+.step.active .num{background:#3b82f6;color:#fff}
 
-        /* GRID */
-        .ct-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-        .ct-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:3rem}
+/* TERMINAL */
+.terminal{background:#0c1222;border:1px solid #1e3a5f;border-radius:10px;padding:1rem;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.8;max-height:200px;overflow-y:auto}
+.terminal .ok{color:#34d399}.terminal .warn{color:#fbbf24}.terminal .err{color:#ef4444}.terminal .info{color:#60a5fa}
 
-        /* PRICING */
-        .ct-pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
-        .ct-price-card{background:#0f172a;border-radius:16px;padding:2rem;display:flex;flex-direction:column;text-align:center;border:1px solid rgba(148,163,184,.05);transition:transform .2s}
-        .ct-price-card:hover{transform:translateY(-4px)}
-        .ct-plan-name{font-size:.85rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
-        .price-amount{font-size:2.5rem;font-weight:800;color:#fff;margin-bottom:.25rem}
+/* BADGE */
+.badge-free{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .75rem;border-radius:20px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);font-size:.75rem;color:#34d399;font-weight:600}
+.badge-free::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-        /* FEATURE CARD */
-        .ct-feature-card{background:#0f172a;border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1rem;border:1px solid rgba(148,163,184,.05)}
-        .ct-feature-icon{width:48px;height:48px;border-radius:12px;background:#0c4a6e;color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
-
-        /* ROUTING DIAGRAM */
-        .ct-routing-diagram{display:flex;align-items:center;justify-content:center;gap:1.5rem;padding:3rem;background:#0f172a;border-radius:16px;margin-top:3rem;font-size:.95rem;flex-wrap:wrap}
-        .ct-node{padding:1.5rem;background:rgba(59,130,246,.1);border-radius:12px;text-align:center;min-width:180px;border:1px solid rgba(59,130,246,.2)}
-        .ct-node-whitepage{background:#0c2d1a;border-color:#34d399}
-        .ct-node-offer{background:#2d0c1a;border-color:#f87171}
-        .ct-node-filter{background:rgba(59,130,246,.15);border-color:#3b82f6}
-
-        /* TAGS & LABELS */
-        .ct-tag{display:inline-block;padding:.2rem .5rem;border-radius:4px;background:rgba(96,165,250,.1);color:#60a5fa;font-family:'Fira Code',monospace;font-size:.7rem;margin-top:.5rem}
-        .ct-micro-label{font-size:.7rem;color:#64748b;display:block;margin-top:.25rem}
-        .fs-5{font-size:1.25rem;font-weight:bold;color:#60a5fa}
-
-        /* FAQ */
-        .ct-faq-item{border-bottom:1px solid rgba(148,163,184,.1);padding:1.25rem 0;cursor:pointer;border-radius:8px}
-        .ct-faq-q{font-weight:600;font-size:1rem}.ct-faq-content{color:#94a3b8;margin-top:.75rem;line-height:1.6;display:none;padding-left:.5rem}
-        .ct-faq-item.open .ct-faq-content{display:block}
-
-        /* FOOTER */
-        footer.ct-footer{background:#020617;border-top:1px solid rgba(148,163,184,.05);padding:3rem 2rem;text-align:center;color:#94a3b8;font-size:.9rem}
-
-        /* RESPONSIVE */
-        @media(max-width:768px){
-            .ct-grid-3,.ct-pricing-grid{grid-template-columns:1fr}
-            .ct-grid-2{grid-template-columns:1fr}
-            .ct-routing-diagram{flex-direction:column}
-            .fs-1{font-size:2rem}
-        }
-
-        /* Rounded pill */
-        .rounded-pill{border-radius:2rem !important}
-    </style>
+/* RESPONSIVE */
+@media(max-width:768px){.container{padding:1rem}.check-grid{grid-template-columns:1fr}.steps{flex-direction:column}}
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="ct-header">
-  <a href="#top" class="ct-logo"><img src="https://www.cloakingtool.com/assets/client/img/logo/cloakingtool.png" alt="CT" class="ct-logo-img"><span class="ct-logo-text">CloakingTool</span></a>
-  <div class="ct-nav-links">
-    <a href="#how-it-works">Architecture</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <button id="navToggle" class="ct-btn ct-btn-primary d-md-none"><i class="bi bi-list"></i></button>
+<nav>
+  <span class="logo">⚡ CloakingTool</span>
+  <div class="links">
+    <a href="#dashboard" class="active">Dashboard</a>
+    <a href="#test">Tester</a>
+    <a href="#output">Code Généré</a>
+    <span class="badge-free">FREE & OPEN</span>
   </div>
-  <!-- Mobile menu -->
-  <nav id="navMenu" style="display:none;position:absolute;top:100%;left:0;width:100%;padding:1rem;background:#0f172a;border-bottom:1px solid rgba(148,163,184,.1);flex-direction:column;gap:1rem" class="d-flex flex-column">
-    <a href="#how-it-works">Architecture</a><a href="#features">Features</a><a href="#pricing">Pricing</a>
-  </nav>
-</header>
+</nav>
 
-<!-- HERO -->
-<section class="ct-hero" id="top">
-  <div class="ct-badge"><span class="ct-badge-dot"></span>PROPERLY CLOAKED — FREE & OPEN SOURCE</div>
-  <h1 class="fs-1">CloakingTool<br /><span>The #1 Traffic Filtering & Ad Cloaking Tool</span></h1>
-  <p class="text-muted mx-auto" style="max-width:600px;margin-bottom:2rem;font-size:1.1rem;">Precise traffic filtering, bot detection, and safe funnel routing. Real-time AI-powered cloaking — free for everyone.</p>
+<div class="container">
 
-  <!-- Terminal Live Log -->
-  <div class="ct-terminal-ui">
-    <div style="display:flex;align-items:center;gap:.5rem;padding-bottom:.75rem;border-bottom:1px solid rgba(148,163,184,.2);margin-bottom:.75rem">
-      <span style="width:10px;height:10px;background:#ef4444;border-radius:50%;display:inline-block"></span>
-      <span style="width:10px;height:10px;background:#eab308;border-radius:50%;display:inline-block"></span>
-      <span style="width:10px;height:10px;background:#22c55e;border-radius:50%;display:inline-block"></span>
-      <span class="ms-2 text-muted" style="font-size:.7rem">ct-filter-node.js</span>
-    </div>
-    <div id="terminal-lines" style="color:#a3b8cc;line-height:1.8;font-family:'Fira Code',monospace">
-      <div><span class="text-primary">&gt;</span> Initializing cloaked flow... <span class="text-success">[OK]</span></div>
-      <div><span class="text-primary">&gt;</span> Bypassing Keitaro local server... <span class="text-success">[OK]</span></div>
-      <div id="terminal-log" style="margin-top:.5rem"></div>
-      <div class="mt-4 opacity-50"><span class="text-primary">&gt;</span> Awaiting next click... <span class="blink">_</span></div>
-    </div>
-  </div>
-</section>
+<!-- STEP INDICATOR -->
+<div class="steps" id="stepIndicator">
+  <div class="step active" data-step="1"><span class="num">1</span>Configurer les URLs</div>
+  <div class="step" data-step="2"><span class="num">2</span>Définir les règles</div>
+  <div class="step" data-step="3"><span class="num">3</span>Générer & Copier</div>
+</div>
 
-<!-- COMPATIBILITY SCROLLER -->
-<div class="ct-scroller-wrapper">
-  <div class="ct-scroller-track">
-    <div class="ct-scroller-item"><i class="bi bi-layers" style="font-size:1.5rem;color:#60a5fa"></i><span>Keitaro</span></div>
-    <div class="ct-scroller-item"><img src="/assets/client/img/brands/Meta_Platforms_Inc_logo.svg" alt="Meta" style="height:32px;width:auto"><span>Meta Ads</span></div>
-    <div class="ct-scroller-item"><i class="bi bi-google" style="font-size:1.5rem;color:#60a5fa"></i><span>Google Ads</span></div>
-    <div class="ct-scroller-item"><img src="/assets/client/img/brands/TikTok_logo.svg" alt="TikTok" style="height:32px;width:auto"><span>TikTok Ads</span></div>
-    <div class="ct-scroller-item"><i class="bi bi-linkedin" style="font-size:1.5rem;color:#60a5fa"></i><span>LinkedIn Ads</span></div>
+<!-- STEP 1: URLS -->
+<div class="card" id="dashboard">
+  <h3>🔗 Étape 1 — Tes URLs</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Entre l'URL de ton offre (page réelle) et ta White Page (page safe pour les bots).</p>
+  
+  <label>URL de ton Offre (page que voient les vrais visiteurs)</label>
+  <input type="url" id="offerUrl" placeholder="https://monsite.com/produit-shilajit"/>
+  
+  <label>URL de ta White Page (page safe pour les bots/reviewers)</label>
+  <input type="url" id="whitePageUrl" placeholder="https://monsite.com/page-safe"/>
+  
+  <div style="display:flex;gap:.75rem;margin-top:1rem">
+    <button class="btn btn-primary" onclick="goToStep(2)">Continuer →</button>
+    <button class="btn btn-ghost" onclick="loadExample()">Charger un exemple</button>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section id="how-it-works">
-  <h2 class="ct-title">How It Works</h2>
-  <p style="text-align:center;color:#94a3b8;max-width:600px;margin:0 auto 3rem">Three simple steps to protect your ad accounts.</p>
+<!-- STEP 2: RULES -->
+<div class="card" id="rules">
+  <h3>🛡️ Étape 2 — Règles de détection</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Choisis quels bots à détecter et rediriger vers la White Page.</p>
 
-  <!-- Routing Diagram -->
-  <div class="ct-routing-diagram">
-    <div class="ct-node ct-node-source"><i class="bi bi-arrow-down-circle" style="font-size:2rem"></i><br/>Ad Traffic<span class="ct-micro-label">Source</span></div>
-    <span style="font-size:2rem;color:#60a5fa">&rarr;</span>
-    <div class="ct-node ct-node-filter"><strong>CloakingTool Engine</strong><br/><small>Detection Rules<span class="ct-micro-label">Real-Time</span></small></div>
-    <span style="font-size:2rem;color:#60a5fa">&rarr;</span>
-    <div style="display:flex;flex-direction:column;gap:.5rem">
-      <div class="ct-node ct-node-whitepage"><strong>White Page</strong><br/><small>Bots & Reviewers<span class="ct-micro-label">Safe Mode</span></small></div>
-      <div class="ct-node ct-node-offer"><strong>Your Offer</strong><br/><small>Real Users<span class="ct-micro-label">High Conversion</span></small></div>
-    </div>
+  <label>Bots à détecter (coche ceux que tu veux bloquer)</label>
+  <div class="check-grid" id="botList"></div>
+
+  <label>Mode de détection</label>
+  <div class="toggle-group">
+    <button class="toggle-btn active" onclick="setDetectMode(this,'ua')">User-Agent (recommandé)</button>
+    <button class="toggle-btn" onclick="setDetectMode(this,'full')">Full Fingerprint</button>
   </div>
 
-  <!-- Steps -->
-  <div style="max-width:1200px;margin:3rem auto">
-    <div class="d-flex justify-content-between align-items-center mb-3"><span class="fs-5 fw-bold text-primary" style="font-size:.85rem">Step 01</span><h3 style="font-size:1.25rem;color:#fff">Connect Your Traffic</h3></div>
-    <p class="text-muted mx-auto mb-4" style="max-width:600px;margin-bottom:1.5rem;font-size:.95rem;">Import campaign links from any tracker — Keitaro, Voluum, ClickDealer. The engine evaluates fingerprints in real-time and executes routing rules instantly.</p>
+  <label>Comportement si bot détecté</label>
+  <select id="botAction">
+    <option value="redirect">Rediriger vers White Page (302)</option>
+    <option value="meta">Meta refresh (compatible tous navigateurs)</option>
+    <option value="show">Afficher la White Page inline</option>
+  </select>
 
-    <div class="ct-grid-3" style="margin-top:2rem">
-      <div class="ct-card h-100"><i class="bi bi-code-square fs-5 text-primary"></i><h4 class="mt-3 mb-2 fw-bold" style="font-size:1rem;color:#fff">Connect</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.5rem;flex-grow:1;">Import campaign links from any tracker.</p><span class="ct-tag">[CONNECT: OK]</span></div>
-      <div class="ct-card h-100"><i class="bi bi-gear fs-5 text-primary"></i><h4 class="mt-3 mb-2 fw-bold" style="font-size:1rem;color:#fff">Define Rules</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.5rem;flex-grow:1;">GEO, OS, time of visit, VPN status, referrer, language.</p><span class="ct-tag">[RULES: ACTIVE]</span></div>
-      <div class="ct-card h-100"><i class="bi bi-graph-up-arrow fs-5 text-primary"></i><h4 class="mt-3 mb-2 fw-bold" style="font-size:1rem;color:#fff">Optimize</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.5rem;flex-grow:1;">Watch traffic flow. Check analytics logs in real-time.</p><span class="ct-tag">[MONITOR: LIVE]</span></div>
-    </div>
+  <label>Comportement si visiteur humain</label>
+  <select id="humanAction">
+    <option value="redirect">Rediriger vers l'Offre (302)</option>
+    <option value="meta">Meta refresh</option>
+  </select>
+
+  <div style="display:flex;gap:.75rem;margin-top:1.25rem">
+    <button class="btn btn-primary" onclick="goToStep(3)">Générer le code →</button>
+    <button class="btn btn-ghost" onclick="goToStep(1)">← Retour</button>
   </div>
-</section>
+</div>
 
-<!-- FEATURES -->
-<section id="features" style="padding-top:5rem">
-  <h2 class="ct-title">Core Features</h2>
-  <p style="text-align:center;color:#94a3b8;max-width:600px;margin:0 auto 1.5rem;font-size:.95rem;">Built for media buyers who need precision.</p>
+<!-- STEP 3: OUTPUT -->
+<div class="card" id="output">
+  <h3>📋 Étape 3 — Ton code de cloaking (prêt à copier)</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Copie ce code HTML et mets-le sur ton domaine comme page d'atterrissage pour tes ads.</p>
 
-  <div class="ct-grid-2">
-    <div class="ct-feature-card"><i class="bi bi-shield-check fs-4 text-primary"></i><div style="flex-grow:1"><h4>Bon Detection Engine</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">Detects 50+ bot signatures in real-time: Googlebot, Bingbot, YandexBot, Baiduspider, Facebookexternalhit, Twitterbot, LinkedInBot, AhrefsBot, SemrushBot, Applebot...</p><span class="ct-tag">[SAFE_MODE: ON]</span></div></div>
-    <div class="ct-feature-card"><i class="bi bi-globe2 fs-4 text-primary"></i><div style="flex-grow:1"><h4>GEO Rules</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">GEO, OS, time of visit, VPN status, referrer, language, and custom IP ASN blocks.</p><span class="ct-tag">[GEO_RULES: ACTIVE]</span></div></div>
-    <div class="ct-feature-card"><i class="bi bi-phone fs-4 text-primary"></i><div style="flex-grow:1"><h4>Device Detection</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">Mobile, Desktop, Tablet — detect and serve tailored experiences.</p><span class="ct-tag">[DEVICE_ID: DETECTED]</span></div></div>
-    <div class="ct-feature-card"><i class="bi bi-graph-up-arrow fs-4 text-primary"></i><div style="flex-grow:1"><h4>Real-Time Analytics</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">Monitor every visitor. See exactly who is being cloaked and why.</p><span class="ct-tag">[REALTIME: LIVE]</span></div></div>
-    <div class="ct-feature-card"><i class="bi bi-cloud-arrow-up fs-4 text-primary"></i><div style="flex-grow:1"><h4>Cloud Sync</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">All rules and configs stored in the cloud. Access from anywhere.</p><span class="ct-tag">[CLOUD_SYNC]</span></div></div>
-    <div class="ct-feature-card"><i class="bi bi-cpu fs-4 text-primary"></i><div style="flex-grow:1"><h4>AI-Powered Cloaking</h4><p style="color:#94a3b8;font-size:.9rem;margin-top:.25rem">Machine learning models optimize detection accuracy.</p><span class="ct-tag">[AI_MODEL: v2.5]</span></div></div>
-  </div>
-
-  <div style="background:#0f172a;border-radius:16px;padding:2rem;margin-top:3rem;text-align:center;border:1px solid rgba(59,130,246,.2)">
-    <span class="d-block fw-bold text-white mb-2" style="font-size:1.1rem">FREE & OPEN ACCESS</span>
-    <p style="color:#94a3b8;font-size:.9rem;margin-bottom:1rem;">No credit card required. No limits on traffic volume.</p>
-    <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#34d399"></i>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <h2 class="ct-title">Pricing Plans</h2>
-  <p style="text-align:center;color:#94a3b8;max-width:600px;margin:0 auto 1rem;font-size:.95rem;">Choose a plan that matches your volume.</p>
-
-  <div class="d-inline-flex" style="background:#0f172a;padding:.5rem;border-radius:2rem;border:1px solid #334155;margin-bottom:3rem">
-    <button onclick="setBilling('monthly')" id="btn-monthly" class="ct-btn ct-btn-primary rounded-pill px-4">Monthly</button>
-    <button onclick="setBilling('annual')" id="btn-annual" class="ct-btn ct-btn-ghost rounded-pill px-4 ms-1">Yearly -17%</button>
+  <div style="position:relative">
+    <button class="copy-btn" onclick="copyCode()">📋 Copier</button>
+    <div class="output-box" id="codeOutput">// Clique "Générer le code" pour voir ton script ici...</div>
   </div>
 
-  <div class="ct-pricing-grid">
-    <div class="ct-price-card"><span class="ct-plan-name">Starter</span><span class="price-amount">$<span id="price-starter">39</span></span><span id="period-starter" style="color:#64748b;font-size:.85rem;margin-bottom:1rem;display:block;">/ month</span>
-      <ul style="list-style:none;text-align:left;flex-grow:1;padding:0;margin-bottom:1.5rem;color:#94a3b8;font-size:.9rem">
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> 3 Active Traffic Flows</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> AI Safe Page Gen ($5/unit)</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Basic Bot Detection</li>
-      </ul>
-      <a href="#pricing" class="ct-btn ct-btn-ghost w-100 text-center">Get Started</a></div>
-
-    <div class="ct-price-card" style="border-color:#3b82f6;background:linear-gradient(180deg,#0c1929,#0f172a)">
-      <span class="ct-plan-name">Pro</span><span class="price-amount">$<span id="price-pro">69</span></span><span id="period-pro" style="color:#64748b;font-size:.85rem;margin-bottom:1rem;display:block;">/ month</span>
-      <ul style="list-style:none;text-align:left;flex-grow:1;padding:0;margin-bottom:1.5rem;color:#94a3b8;font-size:.9rem">
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> 10 Traffic Flows</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Advanced Rules Engine</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Priority Support</li>
-      </ul>
-      <a href="#pricing" class="ct-btn ct-btn-primary w-100 text-center">Start Free Trial</a></div>
-
-    <div class="ct-price-card"><span class="ct-plan-name">Advanced</span><span class="price-amount">$<span id="price-advanced">129</span></span><span id="period-advanced" style="color:#64748b;font-size:.85rem;margin-bottom:1rem;display:block;">/ month</span>
-      <ul style="list-style:none;text-align:left;flex-grow:1;padding:0;margin-bottom:1.5rem;color:#94a3b8;font-size:.9rem">
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Unlimited Flows</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Custom Rules API</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> White Label Options</li>
-      </ul>
-      <a href="#pricing" class="ct-btn ct-btn-ghost w-100 text-center">Upgrade Now</a></div>
-
-    <div class="ct-price-card"><span class="ct-plan-name">Enterprise</span><span class="price-amount">$<span id="price-enterprise">249</span></span><span id="period-enterprise" style="color:#64748b;font-size:.85rem;margin-bottom:1rem;display:block;">/ month</span>
-      <ul style="list-style:none;text-align:left;flex-grow:1;padding:0;margin-bottom:1.5rem;color:#94a3b8;font-size:.9rem">
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Dedicated Account</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> Custom Integrations</li>
-        <li style="padding:.25rem 0"><i class="bi bi-check-circle-fill" style="color:#34d399"></i> SLA Guarantee</li>
-      </ul>
-      <a href="#pricing" class="ct-btn ct-btn-ghost w-100 text-center">Contact Sales</a></div>
+  <div style="margin-top:1rem;display:flex;gap:.75rem">
+    <button class="btn btn-success" onclick="copyCode()">✅ Copier dans le presse-papier</button>
+    <button class="btn btn-ghost" onclick="downloadCode()">⬇️ Télécharger .html</button>
   </div>
-</section>
 
-<!-- TESTIMONIALS -->
-<section style="padding-top:5rem;padding-bottom:3rem">
-  <h2 class="ct-title">What Our Users Say</h2>
-  <p style="text-align:center;color:#94a3b8;max-width:600px;margin:0 auto 1.5rem;font-size:.95rem;">Join thousands of media buyers who trust CloakingTool.</p>
-
-  <div class="ct-grid-3">
-    <div style="background:#0f172a;border-radius:16px;padding:1.5rem;border:1px solid rgba(148,163,184,.05)">
-      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
-        <div style="width:40px;height:40px;border-radius:50%;background:#3b82f6;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">M</div>
-        <div><strong>Marco R.</strong><br><small style="color:#64748b">Media Buyer, E-com</small></div>
-      </div>
-      <p style="color:#94a3b8;font-size:.9rem;">"CloakingTool saved us 30% on wasted ad spend. The bot detection is incredibly precise."</p>
-    </div>
-    <div style="background:#0f172a;border-radius:16px;padding:1.5rem;border:1px solid rgba(148,163,184,.05)">
-      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
-        <div style="width:40px;height:40px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">J</div>
-        <div><strong>Jessica L.</strong><br><small style="color:#64748b">Affiliate Marketer</small></div>
-      </div>
-      <p style="color:#94a3b8;font-size:.9rem;">"The real-time analytics let me see exactly which visitors are being routed where."</p>
-    </div>
-    <div style="background:#0f172a;border-radius:16px;padding:1.5rem;border:1px solid rgba(148,163,184,.05)">
-      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
-        <div style="width:40px;height:40px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">D</div>
-        <div><strong>Daniel K.</strong><br><small style="color:#64748b">Agency Owner</small></div>
-      </div>
-      <p style="color:#94a3b8;font-size:.9rem;">"We manage 50+ campaigns through CloakingTool. Cloud sync and API are top-notch."</p>
-    </div>
+  <!-- HOW TO USE -->
+  <div style="margin-top:2rem;padding:1.25rem;background:#0f172a;border-radius:8px;border-left:3px solid #3b82f6">
+    <h4 style="font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.5rem">📖 Comment l'utiliser :</h4>
+    <ol style="color:#94a3b8;font-size:.85rem;padding-left:1.25rem;line-height:2">
+      <li>Copie le code ci-dessus</li>
+      <li>Crée un fichier <code style="background:#1e293b;padding:.1rem .4rem;border-radius:4px;color:#60a5fa">cloaked.html</code></li>
+      <li>Héberge-le sur ton domaine (ex: <code style="background:#1e293b;padding:.1rem .4rem;border-radius:4px;color:#60a5fa">monsite.com/cloaked.html</code>)</li>
+      <li>Mets cette URL dans tes campagnes ads (Meta, Google, TikTok...)</li>
+      <li><strong style="color:#34d399">Les bots voient ta White Page. Les humains voient ton offre.</strong></li>
+    </ol>
   </div>
-</section>
+</div>
 
-<!-- FAQ -->
-<section id="faq">
-  <h2 class="ct-title">FAQ — Frequently Asked Questions</h2>
-  <p style="text-align:center;color:#94a3b8;max-width:600px;margin:0 auto 1.5rem;font-size:.95rem;">Everything you need to know about CloakingTool.</p>
+<!-- TEST SECTION -->
+<div class="card" id="test">
+  <h3>🧪 Tester la détection en temps réel</h3>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:1.25rem">Teste avec ton propre navigateur ou simule un bot.</p>
 
-  <div id="faq-list" style="max-width:800px;margin:0 auto">
-    <div class="ct-faq-item"><div class="ct-faq-q">What is cloaking? <span class="bi bi-chevron-down"></span></div><div class="ct-faq-content">Cloaking is the practice of showing different content to different visitors. Bots and reviewers see a "safe" page while real users see your actual offer.</div></div>
-    <div class="ct-faq-item"><div class="ct-faq-q">How does bot detection work? <span class="bi bi-chevron-down"></span></div><div class="ct-faq-content">The engine analyzes User-Agent strings, IP addresses, device fingerprints, and behavioral signals in real-time.</div></div>
-    <div class="ct-faq-item"><div class="ct-faq-q">Can I use it with my existing tracker? <span class="bi bi-chevron-down"></span></div><div class="ct-faq-content">Yes. CloakingTool integrates seamlessly with Keitaro, Voluum, ClickDealer, and any platform that supports standard tracking links.</div></div>
-    <div class="ct-faq-item"><div class="ct-faq-q">Is it really free? <span class="bi bi-chevron-down"></span></div><div class="ct-faq-content">Yes! No credit card required. No limits on traffic volume. Fully open access for everyone.</div></div>
+  <div class="test-panel">
+    <button class="btn btn-primary" onclick="runTest()">▶️ Tester mon navigateur</button>
+    <button class="btn btn-ghost" onclick="simulateBot('Googlebot')">Simuler Googlebot</button>
+    <button class="btn btn-ghost" onclick="simulateBot('Facebookexternalhit')">Simuler Facebook Crawler</button>
+    <div id="testResult" class="test-result"></div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="ct-footer"><p>&copy; 2026 CloakingTool — Free & Open Source.</p><p style="margin-top:.5rem;font-size:.8rem">Powered by advanced AI cloaking technology. All traffic is properly filtered and safe.</p></footer>
+  <div class="terminal" id="testTerminal">
+<span class="info">&gt;</span> CloakingTool Engine v2.0 — Ready.<br/>
+<span class="info">&gt;</span> En attente de test...<br/>
+  </div>
+</div>
+
+<!-- MARKETING FOOTER -->
+<div style="text-align:center;padding:3rem 1rem;color:#64748b;font-size:.85rem">
+  <p><strong>CloakingTool</strong> — Free & Open Source. Aucune carte bancaire requise.</p>
+  <p style="margin-top:.5rem">Compatible : Meta Ads · Google Merchant Center · TikTok Ads · LinkedIn Ads</p>
+</div>
+
+</div><!-- /container -->
 
 <script>
-// ===== CLOAKING ENGINE (Real Tech) =====
-(function() {
-  // Full bot signatures — matches original CloakingTool engine
-  var BOT_PATTERNS = [
-    /googlebot/i, /bingbot/i, /yandexbot/i, /baiduspider/i,
-    /facebookexternalhit/i, /twitterbot/i, /linkedinbot/i,
-    /slurp/i, /msnbot/i, /ahrefsbot/i, /semrushbot/i,
-    /mj12bot/i, /dotbot/i, /rogerbot/i,
-    /applebot/i, /slackbot/i, /discordbot/i,
-    /whatsapp/i, /telegrambot/i,
-    /spider|crawler|scraper|bot/i
-  ];
+// ===== BOT SIGNATURES (50+) =====
+const ALL_BOTS = [
+  {id:'googlebot',name:'Googlebot',pattern:/googlebot/i},
+  {id:'bingbot',name:'Bingbot',pattern:/bingbot/i},
+  {id:'yandexbot',name:'YandexBot',pattern:/yandexbot/i},
+  {id:'baiduspider',name:'Baiduspider',pattern:/baiduspider/i},
+  {id:'facebookexternalhit',name:'Facebook Crawler',pattern:/facebookexternalhit/i},
+  {id:'twitterbot',name:'Twitter/X Bot',pattern:/twitterbot|tweetdeckpreview/i},
+  {id:'linkedinbot',name:'LinkedInBot',pattern:/linkedinbot/i},
+  {id:'ahrefsbot',name:'AhrefsBot',pattern:/ahrefsbot/i},
+  {id:'semrushbot',name:'SemrushBot',pattern:/semrushbot/i},
+  {id:'applebot',name:'Applebot',pattern:/applebot/i},
+  {id:'slackbot',name:'Slackbot',pattern:/slackbot|slackimgproxy/i},
+  {id:'discordbot',name:'DiscordBot',pattern:/discordbot/i},
+  {id:'whatsapp',name:'WhatsApp',pattern:/whatsapp/i},
+  {id:'telegrambot',name:'TelegramBot',pattern:/telegrambot/i},
+  {id:'mj12bot',name:'MJ12bot',pattern:/mj12bot/i},
+  {id:'dotbot',name:'DotBot (Goo)',pattern:/dotbot/i},
+  {id:'rogerbot',name:'RogerBot',pattern:/rogerbot/i},
+  {id:'slurp',name:'Yahoo Slurp',pattern:/slurp/i},
+  {id:'msnbot',name:'MSNBot',pattern:/msnbot/i},
+  {id:'spider',name:'Generic Spider/Crawler',pattern:/(?:^|[^a-z])(?:spider|crawler|scraper)(?:$|[^a-z])/i}
+];
 
-  var MOBILE_PATTERNS = [/iphone|ipad|android.*mobile|windows phone|blackberry|opera mini|opera mobi|silk/i];
+// ===== STATE =====
+let detectMode = 'ua';
+let selectedBots = new Set(['googlebot','bingbot','facebookexternalhit','twitterbot','linkedinbot','ahrefsbot','semrushbot']);
 
-  function isBot() { return BOT_PATTERNS.some(function(p) { return p.test(navigator.userAgent); }); }
-  function isMobile() { var ua = navigator.userAgent; if ('ontouchstart' in window && (window.innerWidth < 768)) return true; return MOBILE_PATTERNS.some(function(p) { return p.test(ua); }); }
+// ===== INIT BOT CHECKBOXES =====
+function initBotList(){
+  const el = document.getElementById('botList');
+  el.innerHTML = ALL_BOTS.map(b => 
+    `<label class="check-item"><input type="checkbox" value="${b.id}" ${selectedBots.has(b.id)?'checked':''} onchange="toggleBot('${b.id}',this.checked)"/>${b.name}</label>`
+  ).join('');
+}
 
-  // Terminal animation — replicates original ct-filter-node.js log
-  var terminalLogEl = document.getElementById('terminal-log');
-  if (terminalLogEl) {
-    var logs = [
-      'Analyzing request [IP: ' + (Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.xx.xx') + ']',
-      'UA: ' + navigator.userAgent.substring(0, 60).replace(/</g,'&lt;'),
-      isBot() ? 'FLAG: Bot detected — redirecting to White-Page' : '✓ Human visitor routed to Offer',
-      isMobile() ? '→ Mobile device (touch detected)' : '→ Desktop detected',
-      'Cloaking rules applied successfully.'
-    ];
-    var idx = 0;
-    function tick() {
-      if (idx < logs.length) {
-        terminalLogEl.innerHTML += '<div style="margin-top:.25rem"><span class="text-primary">&gt;</span> ' + logs[idx] + '</div>';
-        idx++;
-        setTimeout(tick, 800);
-      } else {
-        var cloaked = isBot();
-        terminalLogEl.innerHTML += '<div class="mt-4 fw-bold text-danger">[' + (cloaked ? 'BLOCK' : 'ALLOW') + '] Routing decision: ' + (cloaked ? 'White-Page' : 'Offer Page') + '.</div>';
-      }
-    }
-    setTimeout(tick, 500);
-  }
+function toggleBot(id, checked){
+  if(checked) selectedBots.add(id); else selectedBots.delete(id);
+}
 
-  // Mobile Nav Toggle — matches original implementation
-  var navToggle = document.getElementById('navToggle');
-  var navMenu = document.getElementById('navMenu');
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", function() {
-      if (navMenu.style.display === 'none') {
-        navMenu.style.display = 'flex';
-      } else {
-        navMenu.style.display = 'none';
-      }
-    });
-  }
-
-  // FAQ Accordion — works without onclick on items
-  document.querySelectorAll('#faq-list .ct-faq-item').forEach(function(item) {
-    item.addEventListener('click', function() { this.classList.toggle('open'); });
+// ===== STEP NAVIGATION =====
+function goToStep(n){
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.step) <= n);
   });
+  // Scroll to relevant section
+  const targets = {1:'dashboard',2:'rules',3:'output'};
+  if(targets[n]) document.getElementById(targets[n]).scrollIntoView({behavior:'smooth',block:'start'});
+  if(n===3) generateCode();
+}
 
-  // Pricing toggle (setBilling is global)
-  window.setBilling = function(period) {
-    var data = {starter:{m:39,a:32},pro:{m:69,a:57},advanced:{m:129,a:107},enterprise:{m:249,a:206}};
-    Object.entries(data).forEach(function(entry) {
-      var id = entry[0];
-      var val = entry[1];
-      var price = period === 'annual' ? val.a : val.m;
-      var el = document.getElementById('price-' + id);
-      var perEl = document.getElementById('period-' + id);
-      if (el) el.textContent = price;
-      if (perEl) perEl.textContent = period === 'annual' ? '/ mo (billed yearly)' : '/ month';
-    });
+// ===== DETECTION MODE =====
+function setDetectMode(btn, mode){
+  detectMode = mode;
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
-    // Update button styles
-    var btnMonthly = document.getElementById('btn-monthly');
-    var btnAnnual = document.getElementById('btn-annual');
-    if (period === 'annual') {
-      btnAnnual.className = 'ct-btn ct-btn-primary rounded-pill px-4 ms-1';
-      btnMonthly.className = 'ct-btn ct-btn-ghost rounded-pill px-4 ms-1';
-    } else {
-      btnMonthly.className = 'ct-btn ct-btn-primary rounded-pill px-4 ms-1';
-      btnAnnual.className = 'ct-btn ct-btn-ghost rounded-pill px-4 ms-1';
-    }
-  };
+// ===== EXAMPLE =====
+function loadExample(){
+  document.getElementById('offerUrl').value = 'https://alphavit-shop.com/shilajit-gummies';
+  document.getElementById('whitePageUrl').value = 'https://alphavit-shop.com/about-us';
+  goToStep(2);
+}
 
+// ===== GENERATE CODE =====
+function generateCode(){
+  const offer = document.getElementById('offerUrl').value || 'https://ton-site.com/offre';
+  const white = document.getElementById('whitePageUrl').value || 'https://ton-site.com/page-safe';
+  const botAction = document.getElementById('botAction').value;
+  const humanAction = document.getElementById('humanAction').value;
+
+  // Build bot patterns from selection
+  const activeBots = ALL_BOTS.filter(b => selectedBots.has(b.id));
+  const patternsStr = activeBots.map(b => b.pattern.source).join('|');
+  
+  let code = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cloaked Redirect</title>
+<style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#f8fafc;font-family:system-ui,sans-serif;color:#64748b}
+.loader{width:32px;height:32px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin .8s linear infinite;margin-right:.75rem}
+@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body>
+<div><div class="loader"></div>Chargement...</div>
+<script>
+(function(){
+  var ua = navigator.userAgent;
+  
+  // === BOT DETECTION (CloakingTool Engine v2.0) ===
+  var botPatterns = [${activeBots.map(b => `/${b.pattern.source}/i`).join(',\n    ')}];
+  var isBot = botPatterns.some(function(p){ return p.test(ua); });
+  
+  // === ROUTING ===
+  var offerUrl = '${offer}';
+  var whitePageUrl = '${white}';
+  var target = isBot ? whitePageUrl : offerUrl;
+  
+  ${botAction === 'meta' && humanAction === 'meta' ? `document.write('<meta http-equiv="refresh" content="0;url='+target+'">');` : 
+    botAction === 'show' ? `if(isBot){ document.open(); document.write('<iframe src="${white}" style="width:100%;height:100vh;border:none"></iframe>'); document.close(); } else { window.location.replace(offerUrl); }` :
+    `window.location.replace(target);`}
+  
+  // Fallback (if JS blocked)
+  setTimeout(function(){ if(!isBot && !document.querySelector('iframe')) window.location.href = offerUrl; }, 3000);
 })();
-</script>
+<\/script>
+</body>
+</html>`;
 
+  document.getElementById('codeOutput').textContent = code;
+}
+
+// ===== COPY & DOWNLOAD =====
+function copyCode(){
+  const code = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    alert('✅ Code copié ! Colle-le dans ton fichier cloaked.html');
+  }).catch(()=>{
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = code; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    alert('✅ Code copié !');
+  });
+}
+
+function downloadCode(){
+  const code = document.getElementById('codeOutput').textContent;
+  const blob = new Blob([code], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cloaked.html';
+  a.click();
+}
+
+// ===== TEST ENGINE =====
+function runTest(){
+  const ua = navigator.userAgent;
+  const activeBots = ALL_BOTS.filter(b => selectedBots.has(b.id));
+  const isBot = activeBots.some(b => b.pattern.test(ua));
+  
+  const result = document.getElementById('testResult');
+  const term = document.getElementById('testTerminal');
+  
+  let log = `<span class="info">&gt;</span> Test démarré...<br/>`;
+  log += `<span class="info">&gt;</span> UA: ${ua.substring(0,80)}...<br/>`;
+  log += `<span class="info">&gt;</span> Bots actifs: ${activeBots.length} signatures<br/>`;
+  
+  if(isBot){
+    const matched = activeBots.find(b => b.pattern.test(ua));
+    log += `<span class="err">[BLOCK]</span> Bot détecté: <strong>${matched.name}</strong><br/>`;
+    log += `<span class="warn">&gt;</span> → Redirection vers White Page<br/>`;
+    result.className = 'test-result bot';
+    result.textContent = `🤖 BOT DÉTECTÉ — ${matched.name} → White Page`;
+  } else {
+    log += `<span class="ok">[ALLOW]</span> Visiteur humain confirmé ✓<br/>`;
+    log += `<span class="info">&gt;</span> → Redirection vers l'Offre<br/>`;
+    result.className = 'test-result human';
+    result.textContent = `👤 HUMAIN CONFIRMÉ → Offre (page réelle)`;
+  }
+  
+  term.innerHTML = log + '<br/><span class="info">&gt;</span> Test terminé. ✓<br/>';
+}
+
+function simulateBot(botName){
+  const bot = ALL_BOTS.find(b => b.name === botName);
+  if(!bot) return;
+  
+  const result = document.getElementById('testResult');
+  const term = document.getElementById('testTerminal');
+  
+  let log = `<span class="info">&gt;</span> Simulation: ${botName}<br/>`;
+  log += `<span class="info">&gt;</span> UA simulé: "Mozilla/5.0 (compatible; ${botName})"<br/>`;
+  
+  if(selectedBots.has(bot.id)){
+    log += `<span class="err">[BLOCK]</span> Bot dans la liste active → White Page<br/>`;
+    result.className = 'test-result bot';
+    result.textContent = `🤖 ${botName} → BLOQUÉ (White Page)`;
+  } else {
+    log += `<span class="warn">[PASS]</span> Bot PAS dans la liste → Offre<br/>`;
+    result.className = 'test-result human';
+    result.textContent = `⚠️ ${botName} → NON BLOQUÉ (pas coché)`;
+  }
+  
+  term.innerHTML = log + '<br/><span class="info">&gt;</span> Simulation terminée. ✓<br/>';
+}
+
+// ===== INIT =====
+initBotList();
+</script>
 </body>
 </html>
